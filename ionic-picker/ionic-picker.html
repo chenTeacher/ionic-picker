@@ -1,0 +1,171 @@
+<style>
+    .dhcc-picker-bg{
+        background:transparent;
+    }
+    .dhcc-picker-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        -webkit-transition: 0.1s opacity linear;
+        transition: 0.1s opacity linear;
+    }
+    .dhcc-bgclose{
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        position: absolute;
+    }
+    .dhcc-picker{
+        z-index: 3;
+        position: absolute;
+        background: #eee;
+        width: 100%;
+        height: 296px;
+        bottom: 0;
+    }
+    .dhcc-picker .dhcc-picker-header{
+        position: absolute;
+        height: 44px;
+        width: 100%;
+    }
+    .dhcc-picker .dhcc-picker-header .button{
+        font-size: 18px;
+    }
+    .dhcc-picker .ionic-scroll{
+        height: 252px;
+    }
+    .dhcc-picker .ionic-scroll .scroll{
+        padding: 108px 0;
+    }
+    .dhcc-picker .ionic-scroll li {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 36px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 0 10px;
+        overflow: hidden;
+        line-height: 36px;
+        color: #000;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        -webkit-transition: 300ms;
+        -o-transition: 300ms;
+        transition: 300ms;
+    }
+    .dhcc-picker .dhcc-picker-inner{
+        height: 252px;position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        padding: 0;
+        font-size: 1.2rem;
+        text-align: right;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        /*-webkit-mask-box-image: -webkit-linear-gradient(bottom, transparent, transparent 5%, white 20%, white 80%, transparent 95%, transparent);
+        -webkit-mask-box-image: linear-gradient(to top, transparent, transparent 5%, white 20%, white 80%, transparent 95%, transparent);*/
+    }
+
+    .dhcc-picker .picker-center-highlight {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        margin-top: 0px;
+        pointer-events: none;
+    }
+    .dhcc-picker .picker-center-highlight:before {
+        height: 100%;
+        margin: 0 auto;
+        z-index: 3;
+        background-image: -webkit-linear-gradient(top,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6)),-webkit-linear-gradient(bottom,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6));
+        background-image: linear-gradient(180deg,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6)),linear-gradient(0deg,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6));
+        background-position: top,bottom;
+        background-size: 100% 108px;
+        background-repeat: no-repeat;
+        position: absolute;
+        left: 0;
+        top: 0;
+        content: '';
+        width: 100%;
+    }
+    .dhcc-picker .picker-center-highlight:after {
+        content: '';
+        width: 100%;
+        height: 36px;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top:-18px;
+        z-index: 3;
+        background-image: -webkit-linear-gradient(top,#d0d0d0,#d0d0d0,transparent,transparent),-webkit-linear-gradient(bottom,#d0d0d0,#d0d0d0,transparent,transparent);
+        background-image: linear-gradient(180deg,#d0d0d0,#d0d0d0,transparent,transparent),linear-gradient(0deg,#d0d0d0,#d0d0d0,transparent,transparent);
+        background-position: top,bottom;
+        background-size: 100% 1px;
+        background-repeat: no-repeat;
+    }
+    .dhcc-picker .row,.dhcc-picker  .col{padding: 0;}
+    .ionic-dhccpicker .item-note:after{
+        content: " ";
+        display: inline-block;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        height: 6px;
+        width: 6px;
+        border-width: 2px 2px 0 0;
+        border-color: #c8c8cd;
+        border-style: solid;
+        position: relative;
+        top: -2px;
+        top: -1px;
+        margin-left: .3em;
+    }
+
+</style>
+<div  ng-class="{'dhcc-picker-backdrop':true}">
+    <ion-modal-view  class="dhcc-picker-bg">
+        <div class="dhcc-bgclose" ng-click="vm.clickToClose()" ></div>
+        <div class="dhcc-picker ">
+            <header class=" bar dhcc-picker-header" ng-class="'bar-stable'">
+                <div class="buttons">
+                    <button class="button button-clear button-positive" ng-click="vm.returnCancel()">取消</button>
+                </div>
+                <h1 class="title"></h1>
+                <div class="buttons">
+                    <button class="button button-clear button-positive" ng-click="vm.returnOk()">完成</button>
+                </div>
+            </header>
+            <div class="dhcc-picker-inner has-header">
+                <div class="row ">
+                    <div class="col col-33">
+                    </div>
+                    <div class="col col-33">
+                        <ion-scroll-minh delegate-handle={{vm.Handle}}  on-scroll-complete="vm.getValue()" scrollbar-y=false>
+                            <ul >
+                                <li  ng-repeat="item in vm.AreaService">{{item}}</li>
+                            </ul>
+                        </ion-scroll-minh>
+                    </div>
+                    <div class="col col-33">
+                    </div>
+                </div>
+                <div class="picker-center-highlight"></div>
+            </div>
+        </div>
+    </ion-modal-view>
+</div>
